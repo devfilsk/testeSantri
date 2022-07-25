@@ -24,13 +24,13 @@
          $amountFiles = count($_POST['contador']);
 
          for($i =0; $i < $amountFiles; $i++){
-            if( $_POST['opt_cadastrar_clientes'] == 'cadastrar_clientes') {
+            if(isset($_POST['opt_cadastrar_clientes']) == 'cadastrar_clientes') {
                array_push($permissoes, 'cadastrar_clientes');
             }
-            if($_POST['opt_mais'] == 'mais') {
+            if(isset($_POST['opt_mais']) == 'mais') {
                array_push($permissoes, 'mais');
             }
-            if($_POST['opt_excluir_clientes'] == 'excluir_clientes') {
+            if(isset($_POST['opt_excluir_clientes']) == 'excluir_clientes') {
                array_push($permissoes, 'excluir_clientes');
             }
          }
