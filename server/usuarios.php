@@ -78,7 +78,7 @@
       $command = $con->prepare($sql);
       $command->bindParam(":USUARIO_ID", $idLogin);
       $command->bindParam(":LOGIN", $login);
-      $command->bindParam(":NOME_COMPLETO", $senha);
+      $command->bindParam(":NOME_COMPLETO", $pass);
       $command->bindParam(":ATIVO", $ativo);
       $command->bindParam(":NOME_COMPLETO", $nome_completo);
       $command->bindParam(":USUARIO_ID", $idLogin);
