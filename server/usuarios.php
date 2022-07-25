@@ -89,7 +89,7 @@
             array_push($permissoes, 'excluir_clientes');
          }
 
-         foreach ($dados as $value) {
+         foreach ($permissoes as $value) {
             $sql = "UPDATE autorizacoes SET $permissoes WHERE USUARIO_ID=:USUARIO_ID";
             $command = $con->prepare($sql);
             $command->bindParam(":USUARIO_ID", $idLogin);
