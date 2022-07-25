@@ -26,7 +26,7 @@ desta forma faz com que PHP se comunica com um banco de dados relacional.</p>
 - Editar usuarios
 - Deletar usuarios
 - Listagem de usuarios
-- Filtro
+- níveis de verificação
 
 
 ### Pre-requisitos
