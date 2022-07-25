@@ -20,17 +20,21 @@
          $ultimoId->execute();
          $idusuario = $ultimoId->fetch();
 
-         $dados = array(
-             $_POST['opt_cadastrar_clientes'],
-             $_POST['opt_excluir_clientes'],
-             $_POST['opt_mais']
-         );
+         $permissoes = array();
+         if( $_POST['opt_cadastrar_clientes'] == 'cadastrar_clientes') {
+            array_push($permissoes, 'cadastrar_clientes');
+         }
+         if($_POST['opt_mais'] == 'mais') {
+            array_push($permissoes, 'mais');
+         }
+         if($_POST['opt_excluir_clientes'] == 'excluir_clientes') {
+            array_push($permissoes, 'excluir_clientes');
+         }
 
-         foreach ($dados as $value) {
-            $sql = "INSERT INTO autorizacoes VALUES(:USUARIO_ID, :CHAVE_AUTORIZACAO)";
+         foreach ($permissoes as $key => $value) {
+            $sql = "INSERT INTO autorizacoes VALUES (:USUARIO_ID , '" . implode(",", $perm) . "')";;
             $command = $con->prepare($sql);
             $command->bindParam(":USUARIO_ID", $idusuario[0]);
-            $command->bindParam(":CHAVE_AUTORIZACAO", $value);
             if ($command->execute()) {
                $response["status"] = 1;
                arrayJSON($response);
