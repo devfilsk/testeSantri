@@ -21,18 +21,24 @@
          $idusuario = $ultimoId->fetch();
 
          $permissoes = array();
-         if( $_POST['opt_cadastrar_clientes'] == 'cadastrar_clientes') {
-            array_push($permissoes, 'cadastrar_clientes');
-         }
-         if($_POST['opt_mais'] == 'mais') {
-            array_push($permissoes, 'mais');
-         }
-         if($_POST['opt_excluir_clientes'] == 'excluir_clientes') {
-            array_push($permissoes, 'excluir_clientes');
+         $amountFiles = count($_POST['contador']);
+
+         for($i =0; $i < $amountFiles; $i++){
+            if( $_POST['opt_cadastrar_clientes'] == 'cadastrar_clientes') {
+               array_push($permissoes, 'cadastrar_clientes');
+            }
+            if($_POST['opt_mais'] == 'mais') {
+               array_push($permissoes, 'mais');
+            }
+            if($_POST['opt_excluir_clientes'] == 'excluir_clientes') {
+               array_push($permissoes, 'excluir_clientes');
+            }
          }
 
+
+
          foreach ($permissoes as $key => $value) {
-            $sql = "INSERT INTO autorizacoes VALUES (:USUARIO_ID , '" . implode(",", $perm) . "')";;
+            $sql = "INSERT INTO autorizacoes VALUES (:USUARIO_ID , '" . implode(",", $permissoes) . "')";;
             $command = $con->prepare($sql);
             $command->bindParam(":USUARIO_ID", $idusuario[0]);
             if ($command->execute()) {
