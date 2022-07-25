@@ -77,15 +77,21 @@
       $command->bindParam(":NOME_COMPLETO", $nome_completo);
       $command->bindParam(":USUARIO_ID", $idLogin);
       if ($command->execute()) {
-         $dados = array(
-             $_POST['opt_cadastrar_clientes'],
-             $_POST['opt_excluir_clientes'],
-             $_POST['opt_mais']
-         );
+
+         $permissoes = array();
+         if( $_POST['opt_cadastrar_clientes'] == 'cadastrar_clientes') {
+            array_push($permissoes, 'cadastrar_clientes');
+         }
+         if($_POST['opt_mais'] == 'mais') {
+            array_push($permissoes, 'mais');
+         }
+         if($_POST['opt_excluir_clientes'] == 'excluir_clientes') {
+            array_push($permissoes, 'excluir_clientes');
+         }
+
          foreach ($dados as $value) {
-            $sql = "UPDATE autorizacoes SET :CHAVE_AUTORIZACAO WHERE USUARIO_ID=:USUARIO_ID";
+            $sql = "UPDATE autorizacoes SET $permissoes WHERE USUARIO_ID=:USUARIO_ID";
             $command = $con->prepare($sql);
-            $command->bindParam(":CHAVE_AUTORIZACAO", $value);
             $command->bindParam(":USUARIO_ID", $idLogin);
             if ($command->execute()) {
                $response["status"] = 1;
