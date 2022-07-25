@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>santri</title>
+
+    <link rel="stylesheet" href="static/css/w3.css">
+    <link rel="stylesheet" href="static/css/santri.css">
+    <link rel="stylesheet" href="static/css/toastr.css">
+
+    <link rel="stylesheet" href="static/css-awesome/brands.css">
+    <link rel="stylesheet" href="static/css-awesome/fontawesome.css">
+    <link rel="stylesheet" href="static/css-awesome/regular.css">
+    <link rel="stylesheet" href="static/css-awesome/solid.css">
+    <link rel="stylesheet" href="static/css-awesome/svg-with-js.css">
+    <link rel="stylesheet" href="static/css-awesome/v4-shims.css">
+
+    <!-- FAVICON PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/imagens/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/imagens/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/imagens/favicon/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="description" content="Santri">
+    <link rel="mask-icon" href="static/imagens/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        #login {
+            max-width: 95%;
+            margin: auto;
+            width: 380px;
+            margin-top: 5%;
+        }
+
+        #logo-cliente {
+            max-width: 100%;
+            margin: auto;
+            width: 700px;
+        }
+
+        #logo-santri {
+            max-width: 50%;
+            margin: auto;
+            width: 380px;
+        }
+    </style>
+
+</head>
+<body>
+<div id="login">
+    <img id="logo-cliente" class="w3-margin-top" src="static/imagens/logo_cliente.jpg"/>
+    <form>
+        <input class="w3-input w3-border w3-margin-top" type="text" id="user" name="user" placeholder="Usuário">
+        <input class="w3-input w3-border w3-margin-top" type="password" id="password" name="password"
+               placeholder="Senha">
+        <button class="w3-button w3-theme w3-margin-top w3-block">Logar</button>
+    </form>
+    <a href="http://www.santri.com.br">
+        <img id="logo-santri" class="w3-right w3-margin-top" src="static/imagens/logo_santri.svg"/>
+    </a>
+</div>
+<!--ALTEREI A POSIÇÃO DO <SCRIPT> DO COMEÇO DO <BODY> PARA O FIM -->
+<script src="static/js/jquery.js"></script>
+<script src="static/js/toastr.min.js"></script>
+<script src="static/js/main.js"></script>
+<script src="static/js/login.js"></script>
+
+<!-- INSTALAÇÃO DO SERVICE WORK -->
+<script>
+    if ('serviceWorker' in navigator) {
+        console.log('CLIENT: service worker registro em progresso.');
+        window.addEventListener('load', function () {
+            navigator.serviceWorker.register('service-worker.js').then(function () {
+                // Registration was successful
+                console.log('CLIENT: ServiceWorker feito com sucesso');
+            }, function (err) {
+                // Registration failed
+                console.log('CLIENT: ServiceWorker com falhas: ', err);
+            });
+        });
+    }
+</script>
+</body>
+</html>

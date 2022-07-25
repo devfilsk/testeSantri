@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>santri</title>
+
+    <link rel="stylesheet" href="static/css/w3.css">
+    <link rel="stylesheet" href="static/css/santri.css">
+    <link rel="stylesheet" href="static/css/toastr.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="static/css-awesome/brands.css">
+    <link rel="stylesheet" href="static/css-awesome/fontawesome.css">
+    <link rel="stylesheet" href="static/css-awesome/regular.css">
+    <link rel="stylesheet" href="static/css-awesome/solid.css">
+    <link rel="stylesheet" href="static/css-awesome/svg-with-js.css">
+    <link rel="stylesheet" href="static/css-awesome/v4-shims.css">
+
+    <link rel="stylesheet" href="static/css/select2.min.css"/>
+
+    <!-- FAVICON PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/imagens/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/imagens/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/imagens/favicon/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="description" content="Santri">
+    <link rel="mask-icon" href="static/imagens/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+
+</head>
+<body>
+<div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+    <div id="lista_usuarios" class="w3-margin">
+        <div id="usuario"></div>
+        <a class="w3-button w3-theme w3-margin-top w3-margin-bottom" style="float: right" href="javascript:sair()"
+           id="btnsair">Sair</a>
+        <a class="w3-button w3-theme w3-margin-top" href="cadastro_usuarios.html">Cadastrar</a>
+        <form enctype="multipart/form-data colapse" id="form">
+
+            <div id="usuario"></div>
+            <h4 class="mt-5">Editar usuários</h4>
+
+            <!-- RETORNO DA RIQUISIÇÃO-->
+            <div id="retorno" style="toast-success"></div>
+
+            <div class="mb-3">
+                <label>Nome</label>
+                <input type="text" class="w3-input w3-block w3-border" name="nome_completo" id="nome_completo">
+            </div>
+
+            <div class="mb-3">
+                <label>Login</label>
+                <input type="text" class="w3-input w3-block w3-border" name="login" id="login">
+            </div>
+
+            <div class="mb-3">
+                <label>Senha</label>
+                <input type="text" class="w3-input w3-block w3-border" name="senha" id="senha">
+            </div>
+
+            <div class="mb-3">
+                <label>Ativo</label>
+                <input type="text" class="w3-input w3-block w3-border" name="ativo" id="ativo">
+            </div>
+
+            <ul class="mt-5">
+                <li id="opt_cadastrar_clientes">
+                    <input type="checkbox" value="cadastrar_clientes" name="opt_cadastrar_clientes"
+                           id="opt_cadastrar_clientes">
+                    <label>Cadastrar clientes</label>
+                </li>
+                <li id="opt_excluir_clientes">
+                    <input type="checkbox" value="excluir_clientes" name="opt_excluir_clientes"
+                           id="opt_excluir_clientes">
+                    <label> Excluir clientes</label>
+                </li>
+                <li id="opt_mais">
+                    <input type="checkbox" value="mais" name="opt_mais" id="opt_mais">
+                    <label>E assim sucessivamente</label>
+                </li>
+            </ul>
+            <input type="hidden" name="type" value="editar_usuarios">
+            <input type="hidden" name="USUARIO_ID" value="0">
+            <button class="w3-button w3-theme w3-margin-top w3-margin-bottom" type="submit">Editar usuário</button>
+            <button class="w3-button w3-margin-top w3-margin-bottom w3-right" type="reset">Cancelar</button>
+        </form>
+        <div class="list collapse" id="listagem"></div>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nome
+                </th>
+                <th>Login
+                </th>
+                <th>Ativo
+                </th>
+                <th>Opções
+                </th>
+            </tr>
+            </thead>
+            <tbody id="listagem_clientes">
+            <div class="form-group col-md-12">
+                <label for="selectcliente">Usuario</label>
+                <select class="form-control" id="selectcliente" name="USUARIO_ID" style="width: 100%">
+                    <option>Escolha o usuario</option>
+                </select>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<!--ALTEREI A POSIÇÃO DO <SCRIPT> DO COMEÇO DO <BODY> PARA O FIM -->
+<script src="static/js/jquery.js"></script>
+<script src="static/js/toastr.min.js"></script>
+<script src="static/js/select2.min.js"></script>
+<script src="static/js/sweetalert2.all.min.js"></script>
+<script src="static/js/main.js"></script>
+<script src="static/js/jquery-cookie.js"></script>
+<script src="static/js/dashboard.js"></script>
+<script src="static/js/usuario.js"></script>
+<script>
+    let Data = Date.now()
+
+    function Format(timestamp, lang) {
+        let dateObj = new Date(timestamp)
+        return dateObj.toLocaleString(lang, {
+            year: 'numeric',
+            // month: '2-digit',
+            // day: '2-digit',
+            // hour: '2-digit',
+            // minute:'2-digit',
+            // second:'2-digit'
+        }).replace(/\//g, '-')
+
+    }
+
+    let conteudo = "";
+    conteudo += `
+                <span style="font-size: 14px">©  ${'formato pt-BR: ', Format(Data, 'pt-BR')} Copyright - Developer Full Stack Diego César F.</span>
+            `;
+    $("#rodape").html(conteudo);
+</script>
+</body>
+</html>

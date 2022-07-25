@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <title>santri</title>
+
+    <link rel="stylesheet" href="static/css/w3.css">
+    <link rel="stylesheet" href="static/css/santri.css">
+    <link rel="stylesheet" href="static/css/toastr.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="static/css-awesome/brands.css">
+    <link rel="stylesheet" href="static/css-awesome/fontawesome.css">
+    <link rel="stylesheet" href="static/css-awesome/regular.css">
+    <link rel="stylesheet" href="static/css-awesome/solid.css">
+    <link rel="stylesheet" href="static/css-awesome/svg-with-js.css">
+    <link rel="stylesheet" href="static/css-awesome/v4-shims.css">
+
+    <!-- FAVICON PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="static/imagens/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/imagens/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="static/imagens/favicon/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <meta name="description" content="Santri">
+    <link rel="mask-icon" href="static/imagens/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <style>
+        label {
+            display: block;
+        }
+
+        #contador[data-value="0"] {
+            display: none; /*oculta qdo não houver nenhum selecionado*/
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="container mt-5 shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="w3-margin">
+        <form enctype="multipart/form-data" id="form">
+            <a class="w3-button w3-theme w3-margin-top w3-margin-bottom" style="float: left"
+               href="pesquisa_usuarios.html">Pesquisar</a>
+            <a class="w3-button w3-theme w3-margin-top w3-margin-bottom" style="float: right" href="javascript:sair()"
+               id="btnsair">Sair</a>
+            <div id="usuario"></div>
+            <h4 class="mt-5">Cadastro de usuários</h4>
+
+            <!-- RETORNO DA RIQUISIÇÃO-->
+            <div id="retorno" style="toast-success"></div>
+
+            <div class="mb-3">
+                <label>Nome</label>
+                <input type="text" class="w3-input w3-block w3-border" name="nome_completo">
+            </div>
+
+            <div class="mb-3">
+                <label>Login</label>
+                <input type="text" class="w3-input w3-block w3-border" name="login">
+            </div>
+
+            <div class="mb-3">
+                <label>Senha</label>
+                <input type="text" class="w3-input w3-block w3-border" name="senha">
+            </div>
+
+            <div class="mb-3">
+                <label>Ativo</label>
+                <input type="text" class="w3-input w3-block w3-border" name="ativo" value="S">
+            </div>
+
+            <ul class="mt-5">
+                <li id="opt_cadastrar_clientes">
+                    <input type="checkbox" checked value="cadastrar_clientes" name="opt_cadastrar_clientes">
+                    <label>Cadastrar clientes</label>
+                </li>
+                <li id="opt_excluir_clientes">
+                    <input type="checkbox" value="excluir_clientes" name="opt_excluir_clientes">
+                    <label> Excluir clientes</label>
+                </li>
+                <li id="opt_mais">
+                    <input type="checkbox" value="mais" name="opt_mais">
+                    <label>E assim sucessivamente</label>
+                </li>
+            </ul>
+            <input type="hidden" name="contador[]" id="contador" value="0">
+            <input type="hidden" name="type" value="cadastrar_usuarios">
+            <input type="hidden" name="USUARIO_ID" value="0">
+            <button class="w3-button w3-theme w3-margin-top w3-margin-bottom" type="submit">Gravar</button>
+            <button class="w3-button w3-margin-top w3-margin-bottom w3-right" type="reset">Cancelar</button>
+        </form>
+    </div>
+    <p class="footer-copyright" id="rodape"></p>
+</div>
+<!--ALTEREI A POSIÇÃO DO <SCRIPT> DO COMEÇO DO <BODY> PARA O FIM -->
+<script src="static/js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script src="static/js/sweetalert2.all.min.js"></script>
+<script src="static/js/jquery-cookie.js"></script>
+<script src="static/js/toastr.min.js"></script>
+<script src="static/js/main.js"></script>
+<script src="static/js/dashboard.js"></script>
+<script src="static/js/usuario.js"></script>
+<script>
+    let Data = Date.now()
+
+    function Format(timestamp, lang) {
+        let dateObj = new Date(timestamp)
+        return dateObj.toLocaleString(lang, {
+            year: 'numeric',
+            // month: '2-digit',
+            // day: '2-digit',
+            // hour: '2-digit',
+            // minute:'2-digit',
+            // second:'2-digit'
+        }).replace(/\//g, '-')
+
+    }
+
+    let conteudo = "";
+    conteudo += `
+                <span style="font-size: 14px">©  ${'formato pt-BR: ', Format(Data, 'pt-BR')} Copyright - Developer Full Stack Diego César F.</span>
+            `;
+    $("#rodape").html(conteudo);
+
+    $('input[type=checkbox]').on('change', function () {
+        //quantidade de selecionados
+        var qt = $('input[type=checkbox]:checked').length;
+        //coloca o atributo para ocultar qdo for 0
+        $('#contador').attr('value', qt);
+        //coloca o resultado na div contador
+        $('#contador').text(qt + (qt > 1 ? ' selecionados' : ' selecionado'));
+    });
+</script>
+</body>
+
+</html>
