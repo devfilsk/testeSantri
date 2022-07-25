@@ -163,7 +163,6 @@ $(document).ready(function () {
             enctype: 'multipart/form-data',
             contentType: false,
             success: function (retorno) {
-                alert(retorno);
                 let json = $.parseJSON(retorno);
                 if (json.status == 1) {
                     var timeout = window.setTimeout(window.location.reload, 2200);
@@ -179,7 +178,6 @@ $(document).ready(function () {
                     alert(json.error);
                 }
                 $('button[type=submit]').prop('disabled', false);
-                $("#loading").hide();
             },
             timeout: 8000,
             error: function () {
