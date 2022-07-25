@@ -20,34 +20,42 @@
          $ultimoId->execute();
          $idusuario = $ultimoId->fetch();
 
+         /*CRIANDO O ARRAY PARA GUARDAR AS INFORMAÇÕES QUE VEM DOS CHECKBOX */
          $permissoes = array();
+
+         /*PEGA A QUANTIDADE DE CHECKBOX SELECIONADO*/
          $amountFiles = count($_POST['contador']);
 
-         for($i =0; $i < $amountFiles; $i++){
-            if(isset($_POST['opt_cadastrar_clientes']) == 'cadastrar_clientes') {
+         /*PERCORRE OS $_POST QUE VEM DA QUANTIDADE SELECIONADA*/
+         //for ($i = 0; $i < $amountFiles; $i++) {
+            if (isset($_POST['opt_cadastrar_clientes']) == 'cadastrar_clientes') {
                array_push($permissoes, 'cadastrar_clientes');
             }
-            if(isset($_POST['opt_mais']) == 'mais') {
+            if (isset($_POST['opt_mais']) == 'mais') {
                array_push($permissoes, 'mais');
             }
-            if(isset($_POST['opt_excluir_clientes']) == 'excluir_clientes') {
+            if (isset($_POST['opt_excluir_clientes']) == 'excluir_clientes') {
                array_push($permissoes, 'excluir_clientes');
             }
-         }
-
-
-
-         foreach ($permissoes as $key => $value) {
-            $sql = "INSERT INTO autorizacoes VALUES (:USUARIO_ID , '" . implode(",", $permissoes) . "')";;
+            //$i++;
+         //}
+         $countPermissionInserted = 0;
+         foreach ($permissoes as $value) {
+            $sql = "INSERT INTO autorizacoes VALUES (:USUARIO_ID , :VALUE)";
             $command = $con->prepare($sql);
             $command->bindParam(":USUARIO_ID", $idusuario[0]);
+            $command->bindParam(":VALUE", $value);
             if ($command->execute()) {
-               $response["status"] = 1;
-               arrayJSON($response);
-            } else {
-               error("Erro ao cadastrar o usuario, verifique as informações");
+               $countPermissionInserted++;
             }
          }
+         if(count($permissoes) === $countPermissionInserted){
+            $response["status"] = 1;
+            arrayJSON($response);
+         }else{
+            error("Erro ao cadastrar o usuario, verifique as informações");
+         }
+
       }
    } else if ($type == "listar_usuarios") {
       $sql = "SELECT * FROM usuarios WHERE LOGIN LIKE :LOGIN ORDER BY `USUARIO_ID` DESC";
@@ -85,13 +93,13 @@
       if ($command->execute()) {
 
          $permissoes = array();
-         if(isset($_POST['opt_cadastrar_clientes']) == 'cadastrar_clientes') {
+         if (isset($_POST['opt_cadastrar_clientes']) == 'cadastrar_clientes') {
             array_push($permissoes, 'cadastrar_clientes');
          }
-         if(isset($_POST['opt_mais']) == 'mais') {
+         if (isset($_POST['opt_mais']) == 'mais') {
             array_push($permissoes, 'mais');
          }
-         if(isset($_POST['opt_excluir_clientes']) == 'excluir_clientes') {
+         if (isset($_POST['opt_excluir_clientes']) == 'excluir_clientes') {
             array_push($permissoes, 'excluir_clientes');
          }
 
