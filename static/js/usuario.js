@@ -14,6 +14,7 @@ function listarDados(idLogin) {
         $("#usuario").html(conteudo);
     });
 }
+
 /*LISTAR DADOS DOS USUARIOS DA TABELA DO BANCO DE DADOS*/
 function listarUsuarios(login) {
     let jsonDados = listarDados("");
@@ -45,6 +46,7 @@ function listarUsuarios(login) {
         $("#listagem_clientes").html(conteudo);
     });
 }
+
 /*LISTA O USUARIO DO SELECT OPTION*/
 function listarUsuario() {
     $.post(url, {
@@ -60,6 +62,7 @@ function listarUsuario() {
         }
     });
 }
+
 /*FAZ A CONSULTA CONFORME CLICA NA TA LINHA DA TABELA PESQUISAR_USUARIOS.HTML*/
 function consultarUsuario(idLogin) {
     $.post(url, {
@@ -80,6 +83,7 @@ function consultarUsuario(idLogin) {
         });
 
 }
+
 /*EXCLUI DA DO BANCO DE DADOS*/
 function excluirUsuario(idLogin) {
     const swalWithBootstrapButtons = Swal.mixin({
@@ -126,6 +130,7 @@ function excluirUsuario(idLogin) {
         }
     })
 }
+
 /*INICIAR ASFUNÇÕES E JAVASCRIPT*/
 $(document).ready(function () {
     listarDados("");
@@ -144,7 +149,7 @@ $(document).ready(function () {
         if ($("input[name=type]").val() != "cadastro_usuario") {
             window.location = "cadastro_usuarios.html";
         }
-        if($("input[name=type]").val() == "editar_usuarios"){
+        if ($("input[name=type]").val() == "editar_usuarios") {
             window.location = "pesquisa_usuarios.html";
         }
     });
@@ -173,6 +178,7 @@ $(document).ready(function () {
                         timer: 1800
                     }).then(function () {
                         window.clearTimeout(timeout)
+                        window.location.reload()
                     });
                 } else {
                     alert(json.error);

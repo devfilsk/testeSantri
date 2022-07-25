@@ -12,7 +12,7 @@
       $sql = "INSERT INTO usuarios VALUES(0,:LOGIN, :SENHA, :ATIVO, :NOME_COMPLETO, NULL)";
       $command = $con->prepare($sql);
       $command->bindParam(":LOGIN", $login);
-      $command->bindParam(":SENHA", $senha);
+      $command->bindParam(":SENHA", $pass);
       $command->bindParam(":ATIVO", $ativo);
       $command->bindParam(":NOME_COMPLETO", $nome_completo);
       if ($command->execute()) {
